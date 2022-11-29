@@ -1,0 +1,130 @@
+////*****cucumber file*****/////
+Feature: ecommerce Website
+  I want to use this template for my feature file
+  @tag1
+  Scenario: ecommerce Website shopping
+    Given I want to go themeforest ecommerce web
+    When I select the product and add to cart
+    Then I fill the form to create the account
+    
+  
+/////*****step def*****//////
+package stepDefinition;
+
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import objectRepo.ECHomePageOR;
+import objectRepo.FormfillEC;
+import utilitlies.BaseClassEC;
+
+public class StepdefEC extends BaseClassEC{
+	@Given("I want to go themeforest ecommerce web")
+	public void i_want_to_go_themeforest_ecommerce_web() {
+		openBrowser("chrome");
+		driver.manage().window().maximize();
+		openbaseurl();
+	  }
+
+	@When("I select the product and add to cart")
+	public void i_select_the_product_and_add_to_cart() {
+		ECHomePageOR.ecom("Ecommerece");
+	    	}
+
+	@Then("I fill the form to create the account")
+	public void i_fill_the_form_to_create_the_account() {
+		FormfillEC.FF("adithiyan", "parthiban","maalathi@mail.com", "malathi123456", "Malathi225227");
+	    	}
+}
+
+
+
+////*****test case ****////
+package testCases;
+
+import org.testng.annotations.Test;
+import objectRepo.FormfillEC;
+import objectRepo.ECHomePageOR;
+import utilitlies.BaseClassEC;
+
+public class TC5ec extends BaseClassEC {
+	@Test(priority = 1)
+	public void preSetup() {
+		openBrowser("chrome");
+		driver.manage().window().maximize();
+		openbaseurl();
+		}
+	@Test(priority=2)
+	public void Ecom() {	
+		ECHomePageOR.ecom("Ecommerece");
+		}
+	@Test(priority=3)
+	public void navigatetoFormfillEC() {
+		FormfillEC.FF("adithiyan", "parthiban","maalathi@mail.com", "malathi123456", "Malathi225227");		
+   }
+     }
+	 
+	 
+	 
+	 
+/////******home page****//////
+package objectRepo;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+
+import utilitlies.BaseClassEC;
+
+public class ECHomePageOR extends BaseClassEC{
+	public static By website=By.xpath("//input[@placeholder='Search within this category']");
+	public static By search =By.xpath("//button[@aria-label='Search']");
+	public static By shop=By.xpath("//a[contains(text(),'Shopify')]");
+	public static By HandB= By.xpath("//a[contains(text(),'Health & Beauty (148)')]");
+	public static By Org1=By.xpath("//img[@title='Organica - Cosmetic, Food, Organic, Beauty Shopify Theme - Sections Ready']");
+	public static By ac= By.xpath("//strong[contains(text(),'Add to Cart')]");
+	public static By check=By.xpath("//input[@value='Go to Checkout']");
+
+	public static void ecom (String Website) {
+		EnterTxt(website,Website);
+		click(search);
+		click(shop);
+		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		click(HandB);
+		driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
+		click(Org1);
+		click(ac);
+		click(check);
+		}
+}	
+
+
+
+///****** form fill*****///////
+package objectRepo;
+
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.By;
+import utilitlies.BaseClassEC;
+
+public class FormfillEC extends BaseClassEC{
+	public static By fname = By.xpath("//input[@id='firstName']");
+	public static By lname =By.xpath("//input[@id='lastName']");
+	public static By email=By.xpath("//input[@id='email']");
+	public static By un=By.xpath("//input[@id='username']");
+	public static By pw=By.xpath("//input[@id='password']");
+	public static By ca=By.xpath("//span[contains(text(),'Create account & continue')]");
+	
+public static void FF(String Fname,String Lname,String Email,String UN,String PW)  {
+	EnterTxt(fname,Fname);
+	EnterTxt(lname,Lname);
+    EnterTxt(email,Email);
+    EnterTxt(un,UN);
+    EnterTxt(pw,PW);
+    click(ca);
+    driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+    
+	}
+}
+	 
+	 
